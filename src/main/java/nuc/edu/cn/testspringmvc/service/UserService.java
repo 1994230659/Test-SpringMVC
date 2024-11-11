@@ -11,11 +11,10 @@ import java.util.List;
 @Service
 public class UserService {
     private List<User> users = new ArrayList<>();
-    private static int currentNumber = 1; // 用于跟踪当前序号
+    private static int currentNumber = 1;
 
-    // 生成ID的方法
+
     private String generateId() {
-        // 格式化序号为三位数，不足补0
         return String.format("ljy%03d", currentNumber++);
     }
 
