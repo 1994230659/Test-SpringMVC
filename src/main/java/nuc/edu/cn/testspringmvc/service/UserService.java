@@ -7,20 +7,25 @@ import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 
 @Service
 public class UserService {
-
     private List<User> users = new ArrayList<>();
+    private static int currentNumber = 1; // 用于跟踪当前序号
+
+    // 生成ID的方法
+    private String generateId() {
+        // 格式化序号为三位数，不足补0
+        return String.format("ljy%03d", currentNumber++);
+    }
 
     public UserService() {
-        // 添加一些初始用户，包含备注
-        addUser(new User(UUID.randomUUID().toString(), "张三", "销售部经理"));
-        addUser(new User(UUID.randomUUID().toString(), "李四", "技术部工程师"));
-        addUser(new User(UUID.randomUUID().toString(), "王五", "人事部主管"));
+        // 添加初始用户，使用新的ID生成方式
+        addUser(new User(generateId(), "张三", "销售部经理"));
+        addUser(new User(generateId(), "李四", "技术部工程师"));
+        addUser(new User(generateId(), "王五", "人事部主管"));
     }
+
     @GetMapping("/search")
     public List<User> searchUsers(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
@@ -42,7 +47,7 @@ public class UserService {
 
     public User addUser(User user) {
         if (user.getId() == null || user.getId().isEmpty()) {
-            user.setId(UUID.randomUUID().toString());
+            user.setId(generateId());
         }
         users.add(user);
         return user;
